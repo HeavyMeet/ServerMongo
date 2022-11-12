@@ -81,10 +81,10 @@ export const resolvers = {
         let { name } = parse(filename);
         name = name.replace(/([^a-z0-9 ]+)/gi, '-').replace(' ', '_');
         let ext = mimetype.substring(mimetype.indexOf('/') + 1);
-        let pathName = path.join(__dirname, `../imagenes/${name}.${ext}`);
-        pathName = pathName.replace(' ', '_');
-        console.log(pathName, " path ")
-        const out = createWriteStream(pathName);
+        console.log(ext, " ext ")
+        // let pathName = path.join(__dirname, `../imagenes/${name}.${ext}`);
+        // pathName = pathName.replace(' ', '_');
+        // const out = createWriteStream(pathName);
         // await stream.pipe(out);
       }
       return "Imagenes subidas de manera correcta";
