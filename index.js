@@ -24,20 +24,6 @@ async function startApolloServer(typeDefs, resolvers) {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({req}) => {
-      const token = req.headers['authorization'] || '';
-      if(token) {
-        console.log(token, " tok serv " )
-          try {
-              const usuario = jwt.verify(token.replace('Bearer ', ''), process.env.SECRETA);
-              return {
-                  usuario
-              }
-          } catch (error) {
-              console.log(error);
-          }
-      }
-  },
   csrfPrevention: true,
   cache: 'bounded'
   });
@@ -46,9 +32,24 @@ async function startApolloServer(typeDefs, resolvers) {
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 1000 }));
   server.applyMiddleware({ app, path: '/' });
  // app.use(express.static(path.join(__dirname, "../imagenes/")));
-  await new Promise(resolve => httpServer.listen({ port: process.env.PORT || 4000 }, resolve));
+  await new Promise(resolve => httpServer.listen({ port: process.env.PORT || 4001 }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
 startApolloServer(typeDefs,resolvers);
 
+
+// context: ({req}) => {
+//   const token = req.headers['authorization'] || '';
+//   if(token) {
+//     console.log(token, " tok serv " )
+//       try {
+//           const usuario = jwt.verify(token.replace('Bearer ', ''), process.env.SECRETA);
+//           return {
+//               usuario
+//           }
+//       } catch (error) {
+//           console.log(error);
+//       }
+//   }
+// },

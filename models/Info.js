@@ -58,12 +58,10 @@ const InfoSchema = new mongoose.Schema({
     },
     latitud: {
         type: mongoose.Decimal128,
-        required: true,
         trim: true
     },
     longitud: {
         type: mongoose.Decimal128,
-        required: true,
         trim: true
     },
     cve_beneficio: {

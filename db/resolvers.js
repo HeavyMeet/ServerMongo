@@ -37,7 +37,7 @@ export const resolvers = {
         let programa = [];
         let periodicidad = [];
         let municipio = [];
-        console.log(res, " res ")
+        // console.log(res, " res ")
         for (let i = 0; i < res.length; i++) {
           beneficio.push({ ide: res[i].cve_beneficio, val:res[i].desc_beneficio });
         }
@@ -75,19 +75,25 @@ export const resolvers = {
   },
   Mutation: {
     multipleUpload: async (_, { foto }) => {
-      for (let i = 0; i < foto.length; i++) {
-        const { createReadStream, filename, mimetype } = await foto[i];
-        const stream = createReadStream();
-        let { name } = parse(filename);
-        name = name.replace(/([^a-z0-9 ]+)/gi, '-').replace(' ', '_');
-        let ext = mimetype.substring(mimetype.indexOf('/') + 1);
-        console.log(ext, " ext ")
-        // let pathName = path.join(__dirname, `../imagenes/${name}.${ext}`);
-        // pathName = pathName.replace(' ', '_');
-        // const out = createWriteStream(pathName);
-        // await stream.pipe(out);
+
+      try {
+        for (let i = 0; i < foto.length; i++) {
+          const { createReadStream, filename, mimetype } = await foto[i];
+          const stream = createReadStream();
+          let { name } = parse(filename);
+          name = name.replace(/([^a-z0-9 ]+)/gi, '-').replace(' ', '_');
+          let ext = mimetype.substring(mimetype.indexOf('/') + 1);
+          console.log(ext, " ext ")
+          //process.on('warning', e => console.warn(e.stack))
+          // let pathName = path.join(__dirname, `../imagenes/${name}.${ext}`);
+          // pathName = pathName.replace(' ', '_');
+          // const out = createWriteStream(pathName);
+          // await stream.pipe(out);
+        }
+        return "Imagenes subidas de manera correcta";
+      } catch (e) {
+        console.log(e, " error multipleUpload resolver ")
       }
-      return "Imagenes subidas de manera correcta";
     },
     crearUsuario: async (_, { input }) => {
       const { email, password } = input;
@@ -117,7 +123,7 @@ export const resolvers = {
     },
     autenticarUsuario: async (_, { input }) => {
       const { email, password } = input;
-
+      console.log(input, "input ", email, " email ", password, " pass ")
       try {
         const existeUsuario = await Usuario.findOne({ email });
 
@@ -152,7 +158,7 @@ export const resolvers = {
         const existeUsuario = await Info.findOne({curp: CURP });
         let nom_comp = nombres + ' ' + AP + ' ' + AM;
         const [foto1, foto2] = fotox;
-        
+        console.log(latitud, longitud, " nice ")
         const inputf = {n_periodo:period, cve_programa:program, primer_apellido:AP, segundo_apellido:AM, nombres, nombre_completo:nom_comp, 
           fecha_nacimiento:fec_nac, curp:CURP, cve_lugar_nacimiento:cve_lugar_nac, cve_municipio:muni, cve_entidad_federativa:cve_lugar_nac,
           latitud, longitud, cve_beneficio:benef, cantidad, cve_periodicidad:periodici, tarjeta, foto1, foto2 }
