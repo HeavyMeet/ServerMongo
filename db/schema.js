@@ -18,10 +18,20 @@ export const typeDefs = gql`
         periodo: [Valores]
         programa: [Valores]
     }
+
+    type Programa {
+        n_periodo: Int
+        cve_programa: Int
+        curp: String
+        cve_municipio: Int
+        cve_beneficio: Int
+        cantidad: Int
+        cve_periodicidad: Int
+    }
     
     type Query {
         obtenerPrograma : Programas
-        obtenerCURP : [String]
+        obtenerCURP(curpc: String) : Programa
     }
 
     input UsuarioInput {

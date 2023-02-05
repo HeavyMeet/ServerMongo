@@ -59,15 +59,11 @@ export const resolvers = {
         throw new Error(error);
       }
     },
-    obtenerCURP: async (_, { }) => {
+    obtenerCURP: async (_, { curpc }) => {
       try {
-
-        const curps = await Info.find({},{"curp":1,"_id":0});
-        let curpo = [];
-        for (let i = 0; i < curps.length; i++) {
-          curpo.push(curps[i].curp);
-        }
-        return curpo;
+//        const curps = await Info.find({},{"curp":1,"_id":0});
+        const valores = await Info.findOne({curp: curpc},{_id:0, n_periodo:1, cve_programa:1, curp:1, cve_municipio:1, cve_beneficio:1,cantidad: 25, cve_periodicidad:1});
+        return valores;
       } catch (error) {
         console.log(error);
       }
@@ -99,8 +95,8 @@ export const resolvers = {
       const { email, password } = input;
 
       try {
-        const existeUsuario = await Usuario.findOne({ email },{"password":1,"_id":0});
-
+        const existeUsuario = await Usuario.findOne({ email },{"_id":0});
+        
         if(!existeUsuario) {
           throw new Error('El  usuario no esta registrado');
       }
@@ -112,7 +108,6 @@ export const resolvers = {
         //Hashear password
         const salt = await bcryptjs.genSalt(10);
         input.password = await bcryptjs.hash(password, salt);
-        console.log(input.password, " pass hash ", input)
         await Usuario.findOneAndUpdate({ email: email }, input);
       
       } catch (error) {
@@ -126,7 +121,6 @@ export const resolvers = {
       console.log(input, "input ", email, " email ", password, " pass ")
       try {
         const existeUsuario = await Usuario.findOne({ email });
-
         // si el usuario existe
         if(!existeUsuario) {
             throw new Error('El Usuario no existe');
@@ -158,7 +152,6 @@ export const resolvers = {
         const existeUsuario = await Info.findOne({curp: CURP });
         let nom_comp = nombres + ' ' + AP + ' ' + AM;
         const [foto1, foto2] = fotox;
-        console.log(latitud, longitud, " nice ")
         const inputf = {n_periodo:period, cve_programa:program, primer_apellido:AP, segundo_apellido:AM, nombres, nombre_completo:nom_comp, 
           fecha_nacimiento:fec_nac, curp:CURP, cve_lugar_nacimiento:cve_lugar_nac, cve_municipio:muni, cve_entidad_federativa:cve_lugar_nac,
           latitud, longitud, cve_beneficio:benef, cantidad, cve_periodicidad:periodici, tarjeta, foto1, foto2 }
