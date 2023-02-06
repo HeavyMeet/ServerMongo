@@ -12,6 +12,9 @@ import dotenv from 'dotenv';
 dotenv.config({ path: 'variables.env' });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const nodeVersion = process.version;
+
+console.log(nodeVersion, " huuu ")
 
 conectarDB();
 
@@ -32,7 +35,7 @@ async function startApolloServer(typeDefs, resolvers) {
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 1000 }));
   server.applyMiddleware({ app, path: '/' });
  // app.use(express.static(path.join(__dirname, "../imagenes/")));
-  await new Promise(resolve => httpServer.listen({ port: process.env.PORT || 4000 }, resolve));
+  await new Promise(resolve => httpServer.listen({ port: process.env.PORT || 4001 }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
