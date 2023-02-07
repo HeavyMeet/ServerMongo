@@ -8,6 +8,9 @@
     "allowJs": true,
     "strict": false
   },
+  "engines": {
+    "node": ">=14.20.1 <=16.13.2"
+  },
   "scripts": {
     "start": "node .",
     "dev": "nodemon ."
