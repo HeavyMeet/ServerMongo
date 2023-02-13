@@ -62,7 +62,7 @@ export const resolvers = {
     obtenerCURP: async (_, { curpc }) => {
       try {
 //        const curps = await Info.find({},{"curp":1,"_id":0});
-        const valores = await Info.findOne({curp: curpc},{_id:0, n_periodo:1, cve_programa:1, curp:1, cve_municipio:1, cve_beneficio:1,cantidad: 25, cve_periodicidad:1});
+        const valores = await Info.findOne({curp: curpc},{_id:0, cantidad:1, cve_beneficio:1, cve_municipio:1, cve_periodicidad:1, n_periodo:1, cve_programa:1});
         return valores;
       } catch (error) {
         console.log(error);
